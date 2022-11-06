@@ -9,6 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late String value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 15),
 
-              // textfields: Email and Pass
+              // textfields: Username and Pass
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -56,9 +57,12 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25.0),
                     child: TextField(
+                      onChanged: (text) {
+                        value = text;
+                      },
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Email',
+                        hintText: 'Username',
                       ),
                     ),
                   ),
@@ -96,7 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: (() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(
+                              value: value,
+                            )),
                   );
                 }),
               ),
@@ -121,8 +128,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
+// Homepage
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String value;
+  const HomePage({Key? key, required this.value}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -156,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Justin Gwapo',
+                        widget.value,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
